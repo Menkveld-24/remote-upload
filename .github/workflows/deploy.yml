@@ -1,0 +1,24 @@
+name: Deploy project to live server
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+      url: ${{ secret.PRODUCTION_URL }}
+    steps:
+      - name: Upload to server
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GitHub_PAT }}
+        repository: Menkveld-24/remote-upload
+        remote: ~/Docker/website/sites/test
+        host: ${{secrets.SERVER_URL}}
+        port: 78
+        username: ${{secrets.USERNAME}}
+        privateKey: ${{secrets.PRIVATE_KEY}}
+      
